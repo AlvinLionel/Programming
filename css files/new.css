@@ -1,9 +1,8 @@
-body{
+/* body{
     background-color: #e8e8e8;
     margin:0;
     padding: 0;
     line-height: 25px;
-    min-height: 400vh;
 }
 .header{
     font-weight: bolder;
@@ -73,17 +72,17 @@ input{
     padding: 16px;
     color: white;
     break-inside: avoid;
-    /* break-before: column; */
-}
+    break-before: column;comment out
+} */
+ body{
+    background-color: rgb(63, 62, 62);
+ }
 .container{
+    border: 2px solid black;
+    height: 300px;
     display: grid;
-    grid-template-columns: repeat(2,1fr 2fr);
-    grid-auto-rows: minmax(150px,auto);
-    gap: 8px;
+    grid-template-columns: repeat(4,1fr);
 }
 .box{
-    color: white;
-    background-color: black;
-    font-size: 16px;
-    padding: 8px;
+    background-color: silver;
 }
