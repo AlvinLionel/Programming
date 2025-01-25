@@ -63,5 +63,14 @@
   },
   "lldb.showDisassembly": "auto",
   "lldb.dereferencePointers": true,
-  "lldb.consoleMode": "commands"
+  "lldb.consoleMode": "commands",
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    ".",
+    "-p",
+    "*test.py"
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true
 }

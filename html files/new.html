@@ -4,44 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile cards</title>
-    <link rel="stylesheet" href="/css files/new.css">
+    <title>The Little Tacos Shop</title>
+    <link rel="stylesheet" href="../css files/new.css">
+    <script src="../js files/main.js"defer></script>
 </head>
 
 <body>
-    <header>
-        <h1>Our Staff</h1>
-        <nav>
-            <a href="#profile1">Alvin Lionel</a>
-            <a href="#profile2">Claudia Yvonne</a>
-            <a href="#profile3">Fiona Liz</a>
+    <header class="header">
+        <h1 class="header__h1">Little Tacos Shop</h1>
+        <nav class="header__nav">
+            <ul class="header__ul">
+                <li><a href="new.html#menu">Our Menu</a></li>
+                <li><a href="hours.html">Store Hours</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
         </nav>
     </header>
-    <main>
-        <article id="profile1"class="card">
-            <figure>
-                <img src="/Images/Lionel.jpg" alt="Alvin Lionel" width="500" height="500">
-                <figcaption>Alvin Lionel</figcaption>
-            </figure>
-            <p><q>I'm the first born</q></p>
-        </article>
-        <article id="profile2"class="card">
-            <figure>
-                <img src="../Images/Claudia.jpg" alt="Claudia Yvonne" width="500" height="500">
-                <figcaption> Claudia Yvonne</figcaption>
-            </figure>
-            <p><q>I'm the second born</q></p>
-        </article>
-        <article id="profile3"class="card">
-            <figure>
-                <img src="/Images/Fiona.jpg" alt="Fiona Liz" width="500" height="500">
-                <figcaption>Fiona Liz</figcaption>
-            </figure>
-            <p><q>I'm the third born</q></p>
+    <section class="hero">
+        <h2 class="hero__h2">Bienvenidos!</h2>
+        <figure class="img">
+            <img src="../Images/image.jpg" alt="An image" width="100%" height="auto">
+            <figcaption class="offscreen">Tacos and a Drink</figcaption>
+        </figure>
+    </section>
+    <main class="main">
+        <article id="menu"class="main__article" menu>
+            <h2 class="menu__h2">Our Menu</h2>
+            <table class="menu__container">
+                <caption class="offscreen">Our Tacos</caption>
+                <thead>
+                    <tr>
+                        <th class="menu__header" scope="col">Tacos</th>
+                        <th class="menu__header" scope="col">Quantity</th>
+                        <th class="menu__header" scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="menu__item menu__cr"scope="row" rowspan="3">Crunchy</th>
+                        <td class="menu__item">1</td>
+                        <td class="menu__item">$1.50</td>
+                    </tr>
+                    <tr>
+                        <td class="menu__item">2</td>
+                        <td class="menu__item">$2.50</td>
+                    </tr>
+                    <tr>
+                        <td class="menu__item">3</td>
+                        <td class="menu__item">$3.25</td>
+                    </tr>
+                    <tr>
+                        <th class="menu__item menu__sf" scope="row" rowspan="3">Soft</th>
+                        <td class="menu__item">1</td>
+                        <td class="menu__item">$2.00</td>
+                    </tr>
+                    <tr>
+                        <td class="menu__item">2</td>
+                        <td class="menu__item">$3.50</td>
+                    </tr>
+                    <tr>
+                        <td class="menu__item">3</td>
+                        <td class="menu__item">$4.50</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="menu__cs menu__item" colspan="3">Chips &amp; Salsa $2</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <p class="center"><a href="#">Back To Top</a></p>
         </article>
     </main>
-    <footer>
-        <p>&copy;Acme Co.</p>
+    <footer class="footer">
+        <p><span class="nowrap">Copyright &copy; <time id="year"></time> </span><span class="nowrap">The Little Taco Shop</span></p>
     </footer>
 
 </body>

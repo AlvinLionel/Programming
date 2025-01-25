@@ -1,218 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index</title>
-    <link rel="stylesheet" href="/css files/index.css" />
-  </head>
 
-  <body>
-    <div class="header">
-      <a href="http://www.webpage.com" target="_blank">About</a>/
-      <a href="#contact">Contact us</a>/
-      <a href="http://www.webpage.com">Privacy policy</a>/
-      <a href="http://www.webpage.com">Terms & Conditions</a>
-    </div>
-    <hr />
-    <h5>Navigation</h5>
-    <nav>
-      <ul class="nav">
-        <li><a href="#part1">Part 1</a></li>
-        <li><a href="#part2">Part 2</a></li>
-        <li><a href="#part3">Part 3</a></li>
-        <li><a href="#part4">Part 4</a></li>
-      </ul>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+  <link rel="stylesheet" href="../css files/index.css">
+</head>
+<aside class="sidebar">
+  <h3 class="sidebar__h3">Uni-Plus System</h3><br>
+  <ul class="sidebar__ul">
+    <li><a href="#" class="sidebar__a">My Profile</a></li>
+    <li><a href="#" class="sidebar__a">Fees Statement</a></li>
+    <li><a href="#" class="sidebar__a">Hostel Room Booking</a></li>
+    <li><a href="#" class="sidebar__a">Finance Registration</a></li>
+    <li><a href="#" class="sidebar__a">Unit Registartion</a></li>
+    <li><a href="#" class="sidebar__a">Exam Card(Ordinary)</a></li>
+    <li><a href="#" class="sidebar__a">Exam Card(Supp/Special)</a></li>
+    <li><a href="#" class="sidebar__a">Exam Results</a></li>
+    <li><a href="#" class="sidebar__a">Lecturer Evaluation</a></li>
+    <li><a href="#" class="sidebar__a">Disciplinary Cases</a></li>
+    <li><a href="#" class="sidebar__a">Field Attachments</a></li>
+    <li><a href="#" class="sidebar__a">Clearance Application</a></li>
+    <li><a href="#" class="sidebar__a">Graduation Application</a></li>
+    <li><a href="#" class="sidebar__a">Academic Leave</a></li>
+    <li><a href="#" class="sidebar__a">Supplimentary/Special</a></li>
+    <li><a href="#" class="sidebar__a">E-Payment</a></li>
+    <li><a href="#" class="sidebar__a">E-Masomo</a></li>
+  </ul>
+</aside>
+<main class="main">
+  <p class="welcome">Welcome THOOKO ALVIN LIONEL THUMI</p><br>
+  <h3 class="main__title">My Profile</h3><br><br>
+  <a href="#" class="main__link">edit profile...</a><br><br>
+  <table>
+    <nav class="table__nav">
+      <a href="#" class="table__link">My Account</a>
+      <a href="#" class="table__link">Academic</a>
+      <a href="#" class="table__link">General</a>
+      <a href="#" class="table__link">Contacts</a>
+      <a href="#" class="table__link">Next of Kin</a>
     </nav>
-    <hr />
-    <article id="part1">
-      <h3 class="header1">Part 1</h3>
-      <h1>Introduction</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum maiores modi ullam fugit harum repellat quod accusamus, adipisci quis unde vel nesciunt alias aperiam excepturi minus dolorum iure itaque quidem.
-      </p>
-      <p>
-        This line is meant to show how an <abbr title="abbreviation">abbr</abbr> works
-      </p>
-      <h3>Chemical equations</h3>
-      <p>H<sub>2</sub>+ O<sub>2</sub>=H<sub>2</sub>O</p>
-      <figure>
-        <img src="/Images/image.jpg" alt="A quote from the Bible" />
-        <figcaption>A quote from the Bible</figcaption>
-      </figure>
-    </article>
-    <article id="part2">
-      <h3 class="header2">Part 2</h3>
-      <fieldset>
-        <legend>Personal Information</legend>
-        <form action="sample-page-handler.html" method="POST">
-          <label for="name">Full name</label>
-          <input type="text" name="name" id="name" placeholder="Full name" autocapitalize/><br />
-          <label for="email">Enter Email</label>
-          <input type="email" name="name" id="email" placeholder="Email" required/><br />
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" placeholder="Password" required/><br />
-          <label for="url">Url</label>
-          <input type="url" name="url" id="url" placeholder="Enter Url" /><br />
-          <input type="file" name="file" id="file" /><br />
-          <label for="date">Year of Birth</label>
-          <input type="date" name="date" id="date" /><br />
-          <label for="language">Which is your preffered language of communication</label><br />
-          <select name="language" id="language">
-            <option value="English">English</option>
-            <option value="French">French</option>
-            <option value="Spanish">Spanish</option>
-            <option value="Swahili">Swahili</option>
-            <option value="Chinese">Chinese</option>
-            <option value="German">German</option>
-            <option value="Kikuyu">Kikuyu</option></select><br />
-          <label for="gender">What is your gender</label><br />
-          <input type="radio" name="gender" id="male" />
-          <label for="male">Male</label><br />
-          <input type="radio" name="gender" id="female" />
-          <label for="female">Female</label><br />
-          <input type="radio" name="gender" id="other" />
-          <label for="other">Other</label><br />
-          <label for="payment">What is your preffered mode of payment</label><br />
-          <input type="checkbox" name="payment" id="cash" />
-          <label for="payment">Cash</label><br />
-          <input type="checkbox" name="payment" id="card" />
-          <label for="payment">Card</label><br />
-          <input type="checkbox" name="payment" id="mobileMoney" />
-          <label for="payment">Mobile Money</label><br />
-          <input type="checkbox" name="payment" id="credit" />
-          <label for="payment">Credit</label><br />
-          <label for="color">What is your favourite color</label>
-          <input type="color" name="color" id="color" /><br />
-          <label for="rate">What would you rate our services</label>
-          <input type="range" name="rate" id="rate" /><br /><br />
-          <button type="submit">Submit</button>
-          <button type="reset">Reset</button>
-        </form>
-      </fieldset>
-      <audio src="/Audio/Love Yourself.mp3" controls></audio>
-    </article>
-    <article id="part3">
-      <h3 class="header3">Part 3</h3>
-      <p>Major towns in Kenya;</p>
-      <address>
-        <ul>
-          <li>Nairobi</li>
-          <li>Mombasa</li>
-          <li>Nakuru</li>
-          <li>Kisumu</li>
-        </ul>
-      </address>
-      <table>
-        <figcaption>My Daily Schedule</figcaption>
-        <thead>
-          <tr>
-            <th>&nbsp;</th>
-            <th>Time</th>
-            <th>Activity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th rowspan="3">Morning</th>
-            <td>7:00am</td>
-            <td>Wake Up</td>
-          </tr>
-          <tr>
-            <td>7:30am-8:00am</td>
-            <td>Breakfast</td>
-          </tr>
-          <tr>
-            <td>8:00am-12:00</td>
-            <td>Personal Studies</td>
-          </tr>
-          <tr>
-            <th rowspan="2">Afternoon</th>
-            <td>12:00-1:30pm</td>
-            <td>Lunch break</td>
-          </tr>
-          <tr>
-            <td>2:00pm-5:00pm</td>
-            <td>Write code</td>
-          </tr>
-          <tr>
-            <th rowspan="2">Night</th>
-            <td>5:00pm-8:00pm</td>
-            <td>Free time</td>
-          </tr>
-          <tr>
-            <td>11:00pm</td>
-            <td>Sleep</td>
-          </tr>
-        </tbody>
-      </table>
-      <fieldset style="background-color: antiquewhite">
-        <legend>A Poem</legend>
-        <figure>
-          Two roads diverged in a yellow wood,<br />
-          And sorry I could not travel both,<br />
-          And be one traveller,long I stood,<br />
-          And looked down one as far as I could,<br />
-          To where it bent in the undergrowth,<br />
-          Then took the other,as just as fair,<br />
-          And having perhaps the better claim,<br />
-          Because it was grassy and wanted wear,<br />
-          Though as for that the passing there,<br />
-          Had worn them ready about the same,<br />
-          And both that morning equally lay,<br />
-          In leaves no step had trodded black,<br />
-          Oh,I kept the first for another day! <br />
-          Yet knowing how way leads on to way,<br />
-          I doubted if I should ever come back,<br />
-          I shall be telling this with a sigh,<br />
-          Somewhere ages and ages hence,<br />
-          Two roads diverged in a wood,and I-<br />
-          I took the one less travelled by,<br />
-          And that has made all the difference.
-        </figure>
-        <figcaption style="text-align: center">
-          <cite>The road not taken</cite> By: Robert Frost
-        </figcaption>
-      </fieldset>
-      <figure>
-        <iframe src="/css files/index.css" frameborder="0"></iframe>
-        <figcaption>
-          The <a href="/css files/index.css">styling sheet</a> for this site
-        </figcaption>
-      </figure>
-      <p class="shadow">This paragraph has been styles with a shadow. Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem atque magni architecto repellendus sunt tempore, neque inventore explicabo aliquam sit officia. Eum hic dolore, ex sint a enim molestiae cupiditate.
-      </p>
-    </article>
-    <article id="part4">
-      <h3 class="header4">Part 4</h3>
-      <fieldset id="contact">
-        <legend>Contact Us</legend>
-        <ul>
-          <li>Our <a href="mailto:alvinlionel053@gmail.com">Email</a></li>
-          <li>Our <a href="tel:+254745419147">Phone</a></li>
-          <li>
-            To download the <a href="/Images/image.jpg" download>image</a> in the website
-          </li>
-          <li>
-            To download the <a href="/Audio/Love Yourself.mp3" download>song</a> in the website
-          </li>
-        </ul>
-      </fieldset>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro ipsa dolores non explicabo, earum fugiat maxime soluta maiores est dolor cumque quis sed voluptates, sapiente ullam, minus incidunt adipisci quo.
-      </p>
-      <p>
-        Non, provident nemo! Unde corrupti commodi accusantium ipsa, vel, quos aspernatur rem inventore, beatae praesentium laborum. Repellendus architecto voluptates hic assumenda recusandae fugit aspernatur totam quaerat possimus. At, aspernatur quis?
-      </p>
-      <div class="project">
-        <h2>CSS Menu</h2>
-        <p><a href="#">Appetizers</a></p>
-        <p><a href="#">Entrees</a></p>
-        <p><a href="#">Desserts</a></p>
-        <p><a href="#">Beverages</a></p>
-        <p><a href="#">About</a></p>
-      </div>
-      <a href="#">Go to Top</a><br />
-      <p class="copyright">&lt;&lt;&copy; Alvin Thumi &gt;&gt;</p>
-    </article>
-  </body>
+  </table>
+</main>
+
+<body>
+</body>
+
 </html>
