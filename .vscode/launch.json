@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/LIONEL/OneDrive/Desktop/Programming/c files",
-      "program": "c:/Users/LIONEL/OneDrive/Desktop/Programming/c files/build/Debug/outDebug",
+      "cwd": "c:/Users/LIONEL/OneDrive/Desktop/Programming",
+      "program": "c:/Users/LIONEL/OneDrive/Desktop/Programming/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
