@@ -397,7 +397,12 @@ int main()
     printf("Enter the number: ");
     scanf("%d",&num);
 
-    printf("%s",weekday);
+    const char* weekdayNames[] = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    if (num >= Sunday && num <= Saturday) {
+        printf("%s", weekdayNames[num]);
+    } else {
+        printf("Invalid number");
+    }
 
     return 0;
 } 
