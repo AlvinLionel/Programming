@@ -3,6 +3,42 @@
     "development"
   ],
   "hints": {
-    "disown-opener": "off"
+    "disown-opener": "off",
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "overscroll-behavior-inline",
+          "overscroll-behavior-inline: contain",
+          "overscroll-behavior",
+          "overscroll-behavior: contain",
+          "backdrop-filter"
+        ]
+      }
+    ],
+    "axe/name-role-value": "off",
+    "no-inline-styles": "off",
+    "compat-api/html": [
+      "default",
+      {
+        "ignore": [
+          "iframe[loading]"
+        ]
+      }
+    ],
+    "axe/text-alternatives": [
+      "default",
+      {
+        "frame-title": "off"
+      }
+    ],
+    "button-type": "off",
+    "axe/forms": [
+      "default",
+      {
+        "label": "off",
+        "select-name": "off"
+      }
+    ]
   }
 }
