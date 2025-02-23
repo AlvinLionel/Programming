@@ -1,0 +1,4 @@
+User 1={Alvin Lionel Thumi Thooko,Lionel,Alvin,40000.00}
+User 2={Claudia Yvonne Wangu Thooko,Claudia,Yvonne,20000.00}
+User 3={Leona Lily Wathanu Thooko,Leona,Lily,20000.00}
+User 4={Fiona Liz Waithiegeni Thooko,Fiona,Liz,20000.00}

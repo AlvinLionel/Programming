@@ -15,7 +15,7 @@ mainmenu:
     printf("7.My Account\n");
     printf("8.Pochi la Biashara\n");
     printf("9.M-PESA Ratiba\n");
-    printf("98.MORE\n");
+    printf("10.MORE\n");
 
     printf("\nChoose a service:");
     scanf("%d", &num);

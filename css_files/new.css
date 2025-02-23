@@ -1,9 +1,10 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-.calculator{
+
+.calculator {
     background-color: grey;
     width: 300px;
     height: 350px;
@@ -13,7 +14,8 @@
     border-radius: 10px;
     box-shadow: 3px 3px 3px 2px rgb(63, 63, 63);
 }
-.calculator__screen{
+
+.calculator__screen {
     background-color: whitesmoke;
     max-width: 90%;
     margin: 20px auto;
@@ -22,19 +24,23 @@
     border-radius: 10px;
     display: block;
     font-size: 1.8rem;
-    word-wrap: break-word;
+    overflow: auto;
+    word-wrap: wrap;
 }
-.calculator__button{
+
+.calculator__button {
     width: 50px;
     height: 30px;
     margin: 10px;
     border-radius: 10px;
     box-shadow: 3px 3px 2px rgb(78, 77, 77);
 }
-.calculator__button:hover{
+
+.calculator__button:hover {
     opacity: 0.5;
 }
-.operator{
+
+.operator {
     background-color: orange;
     color: white;
 }

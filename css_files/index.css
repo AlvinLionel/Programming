@@ -3,3 +3,12 @@ body{
     color: rgb(12, 206, 241);
     font-size: 1.2rem;
 }
+#box{
+    background-color: antiquewhite;
+    color: black;
+    width: 40vw;
+    height: 40vh;
+    opacity: 1;
+    transition: all 2s;
+    overflow-y: hidden;
+}
