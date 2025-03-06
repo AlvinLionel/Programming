@@ -1,546 +1,510 @@
 #include <stdio.h>
-int main()
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <errno.h>
+
+#define MAX_USERS 100
+#define MAX_TRANSACTIONS 100
+
+typedef struct
 {
+    char name[50];
+    char username[50];
+    char password[50];
+    double balance;
+} users;
+typedef struct
+{
+    char username[50];
+    char type[50];
+    double amount;
+} transactions;
 
-    int num, phone, amount, pin, agentNumber, storeNumber, atmNumber, accountNumber;
-    char address[30], name[20];
+transactions transaction[MAX_TRANSACTIONS];
+users user[MAX_USERS];
 
-mainmenu:
-    printf("\n1.Send Money\n");
-    printf("2.Windraw cash\n");
-    printf("3.Buy Airtime\n");
-    printf("4.Loans and Savings\n");
-    printf("5.Financial services\n");
-    printf("6.Lipa na M-PESA\n");
-    printf("7.My Account\n");
-    printf("8.Pochi la Biashara\n");
-    printf("9.M-PESA Ratiba\n");
-    printf("10.MORE\n");
+int userCount = 0, transactionCount = 0;
 
-    printf("\nChoose a service:");
-    scanf("%d", &num);
-
-    switch (num)
+void saveUsers()
+{
+    FILE *file = fopen("../Others/Users.txt", "w");
+    if (file == NULL)
     {
-    case 1:
-        printf("Send Money.\n");
-        printf("1.Send Money to Any Network\n");
-        printf("2.M-PESA Global\n");
-        printf("3.Pochi la Biashara\n");
-        printf("4 Home\n");
-        printf("\nChoose a service:");
-        scanf("%d", &num);
-        switch (num)
+        perror("Error opening file");
+        exit(1);
+    }
+    for (int i = 0; i < userCount; i++)
+    {
+        fprintf(file, "User %d={%s,%s,%s,%.2lf}\n", i + 1, user[i].name, user[i].username, user[i].password, user[i].balance);
+    }
+    fclose(file);
+}
+
+void loadUsers()
+{
+    FILE *file = fopen("../Others/Users.txt", "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        exit(1);
+    }
+    while (fscanf(file, "User %*d={%[^,],%[^,],%[^,],%lf}\n", user[userCount].name, user[userCount].username, user[userCount].password, &user[userCount].balance) != EOF)
+    {
+        userCount++;
+    }
+    fclose(file);
+}
+
+void saveTransactions()
+{
+    FILE *file = fopen("../Others/Transactions.txt", "w");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        exit(1);
+    }
+    for (int i = 0; i < transactionCount; i++)
+    {
+        fprintf(file, "Transaction %d={%s,%s,%.2lf}\n", transaction[i].username, transaction[i].type, transaction[i].amount);
+    }
+    fclose(file);
+}
+
+void loadTransactions()
+{
+    FILE *file = fopen("../Others/Transactions.txt", "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        exit(1);
+    }
+    while (fscanf(file, "Transaction %*d={%[^,],%[^,],%lf}\n", transaction[transactionCount].username, transaction[transactionCount].type, &transaction[transactionCount].amount) != EOF)
+    {
+        transactionCount++;
+    }
+    fclose(file);
+} // I modified the fscanf to be like users.
+
+void createAccount()
+{
+    if (userCount >= MAX_USERS)
+    {
+        printf("Maximum number of users reached\n");
+        return;
+    }
+    printf("Enter your full name: ");
+    getchar();
+    fgets(user[userCount].name, 50, stdin);
+
+    user[userCount].name[strcspn(user[userCount].name, "\n")] = '\0';
+
+    char username[50];
+    bool usernameExists;
+
+    do
+    {
+        printf("Enter your username: ");
+        scanf("%s", username);
+        getchar();
+
+        usernameExists = false;
+        for (int i = 0; i < userCount; i++)
         {
-        case 1:
-            printf("Enter Phone Number: ");
-            scanf("%d", &phone);
-            printf("Enter Amount:");
-            scanf("%d", &amount);
-            printf("Enter M-pesa pin: ");
-            scanf("%d", &pin);
-            break;
-        case 2:
-            printf("Enter your Pysical address E.g Safaricom House,Waiyaki Way:");
-            scanf("%s", &address);
-            break;
-        case 3:
-            printf("Enter Phone Number: ");
-            scanf("%d", &phone);
-            printf("Enter Amount:");
-            scanf("%d", &amount);
-            printf("Enter M-pesa pin: ");
-            scanf("%d", &pin);
-            break;
-        case 4:
-            goto mainmenu;
-            break;
-        default:
-            printf("Invalid Input");
-            break;
-        }
-        break;
-    case 2:
-        printf("1 From Agent\n");
-        printf("2 From ATM\n");
-        printf("3 From BANK TO M-PESA\n");
-        printf("4 Home\n");
-        printf("\nChoose a service: ");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            printf("Enter Agent Number: ");
-            scanf("%d", &agentNumber);
-            printf("Enter Store Number: ");
-            scanf("%d", &storeNumber);
-            break;
-        case 2:
-            printf("Enter ATM Number: ");
-            scanf("%d", &atmNumber);
-            printf("Withdraw from %d\n", atmNumber);
-            printf("1.Accept\n");
-            printf("2.Cancel\n");
-            scanf("%d", &num);
-            switch (num)
+            if (strcmp(user[i].username, username) == 0)
             {
-            case 1:
-                printf("Your request has been received successfully.");
-                break;
-            case 2:
-                goto mainmenu;
-            default:
-                printf("Invalid Input");
-                break;
+                printf("Username already exists,please try again.\n");
+                usernameExists = true;
             }
-            break;
-        case 3:
-        back3:
-            printf("FROM BANK TO M-PESA\n");
-            printf("1 Equity Bank LTD\n");
-            printf("2 COOPERATIVE BANK\n");
-            printf("3 KCB BANK\n");
-            printf("4 NCBA\n");
-            printf("5 ABSA");
-            printf("\nChoose a service: ");
-            scanf("%d", &num);
-            switch (num)
+        }
+    } while (usernameExists);
+    strcpy(user[userCount].username, username);
+
+    printf("Enter your password: ");
+    scanf("%s", user[userCount].password);
+    getchar();
+
+    userCount++;
+    saveUsers();
+    printf("Account created successfully\n");
+}
+
+void deposit()
+{
+    char password[50];
+    double amount;
+    bool userFound = false;
+
+    printf("Enter your password: ");
+    scanf("%s", &password);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].password, password) == 0)
+        {
+            printf("Enter the amount you want to deposit: ");
+            scanf("%lf", &amount);
+            userFound = true;
+            user[i].balance += amount;
+            printf("\nDeposit successfull\n");
+            printf("Your new balance is: $%.2lf\n", user[i].balance);
+
+            strcpy(transaction[transactionCount].username, user[i].username);
+            strcpy(transaction[transactionCount].type, "Deposit");
+            transaction[transactionCount].amount = amount;
+            transactionCount++;
+            saveTransactions();
+            return;
+        }
+    }
+    if (!userFound)
+    {
+        printf("Invalid password.Please try again.\n");
+    }
+}
+
+void withdraw()
+{
+    char username[50];
+    double amount;
+    bool userFound = false;
+
+    printf("Enter your username: ");
+    scanf("%s", &username);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            printf("Enter the amount you want to withdraw: ");
+            scanf("%lf", &amount);
+            userFound = true;
+            if (user[i].balance < amount)
             {
-            case 1: // equity bank
-            back1:
-                printf("Welcome to Equity\n");
-                printf("1.English\n");
-                printf("2.Kiswahili\n");
-                printf("\nChoose a service: ");
-                scanf("%d", &num);
-                switch (num)
+                printf("Insufficient balance\n");
+                return;
+            }
+            user[i].balance -= amount;
+            printf("\nWithdraw successfull\n");
+            printf("Your new balance is: $%.2lf\n", user[i].balance);
+
+            strcpy(transaction[transactionCount].username, username);
+            strcpy(transaction[transactionCount].type, "Withdraw");
+            transaction[transactionCount].amount = amount;
+            transactionCount++;
+            saveTransactions();
+        }
+    }
+    if (!userFound)
+    {
+        printf("Invalid username.Please try again.\n");
+    }
+}
+
+void transfer()
+{
+    char username[50];
+    char receiver[50];
+    double amount;
+    bool userFound = false, receiverFound = false;
+
+    printf("Enter your username: ");
+    scanf("%s", &username);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            userFound = true;
+            printf("Enter the username of the receiver: ");
+            scanf("%s", &receiver);
+            for (int i = 0; i < userCount; i++)
+            {
+                if (strcmp(user[i].username, receiver) == 0)
                 {
-                case 1:
-                case 2:
-                back2:
-                    printf("Select an option to proceed.\n");
-                    printf("1.Link Existing Equity Bank Account\n");
-                    printf("2.Open a mobile account\n");
-                    printf("3.Back\n");
-                    printf("\nChoose a service: ");
-                    scanf("%d", &num);
-                default:
-                    printf("Invalid Input");
-                    break;
-                    switch (num)
+                    receiverFound = true;
+                }
+            }
+            if (!receiverFound)
+            {
+                printf("Invalid receiver username.Please try again\n");
+                return;
+            }
+
+            printf("Enter the amount you want to transfer: ");
+            scanf("%lf", &amount);
+            if (user[i].balance < amount)
+            {
+                printf("Insufficient balance\n");
+                return;
+            }
+            for (int j = 0; j < userCount; j++)
+            {
+                if (strcmp(user[j].username, receiver) == 0)
+                {
+                    user[i].balance -= amount;
+                    user[j].balance += amount;
+                    printf("Trasfer successfull\n");
+                    printf("Your new balance is: $%.2lf\n", user[i].balance);
+
+                    strcpy(transaction[transactionCount].username, username);
+                    strcpy(transaction[transactionCount].type, "Trasfer");
+                    transaction[transactionCount].amount = amount;
+                    transactionCount++;
+                    saveTransactions();
+                    return;
+                }
+            }
+        }
+    }
+    if (!userFound)
+    {
+        printf("Invalid username.Please try again.\n");
+    }
+}
+
+void checkBalance()
+{
+    char username[50];
+    printf("Enter your username: ");
+    scanf("%s", &username);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            printf("\nYour balance is: $%.2lf\n", user[i].balance);
+            return;
+        }
+    }
+    printf("Invalid username.Please try again\n");
+}
+
+void transactionHistory()
+{
+    char username[50];
+    bool userFound = false;
+
+    printf("Enter your username: ");
+    scanf("%s", username);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            userFound = true;
+            bool transactionFound = false;
+
+            for (int j = 0; j < transactionCount; j++)
+            {
+                if (strcmp(transaction[j].username, username) == 0)
+                {
+                    printf("\nTransaction %d\n", j + 1);
+                    printf("Name: %s\n", transaction[j].username);
+                    printf("Type: %s\n", transaction[j].type);
+                    printf("Amount: $%.2lf\n", transaction[j].amount);
+                    transactionFound = true;
+                }
+            }
+            if (!transactionFound)
+            {
+                printf("\nNo transactions have been performed yet.\n");
+            }
+            return;
+        }
+    }
+    if (!userFound)
+    {
+        printf("Invalid username.Please try again\n");
+    }
+}
+
+void userAuthentication()
+{
+    char username[50];
+    char password[50];
+    int passwordTrials = 0;
+    bool authenticated = false;
+
+    printf("Enter your username: ");
+    scanf("%s", &username);
+
+    while (passwordTrials < 3)
+    {
+        printf("Enter your password: ");
+        scanf("%s", &password);
+
+        for (int i = 0; i < userCount; i++)
+        {
+            if (strcmp(user[i].username, username) == 0 && strcmp(user[i].password, password) == 0)
+            {
+                printf("\nWelcome %s\n", user[i].name);
+                authenticated = true;
+
+                while (1)
+                {
+                    int choice;
+                    printf("\n1. Deposit\n");
+                    printf("2. Withdraw\n");
+                    printf("3. Trasfer\n");
+                    printf("4. Check balance\n");
+                    printf("5. Transaction history\n");
+                    printf("6. Log out\n");
+                    printf("\nEnter your choice: ");
+                    scanf("%d", &choice);
+
+                    switch (choice)
                     {
                     case 1:
-                        printf("What is your Equity Account number: ");
-                        scanf("%d", &accountNumber);
-                        printf("1.Back\n");
-                        printf("2.Main Menu\n");
-                        scanf("%d", &num);
-                        switch (num)
-                        {
-                        case 1:
-                            goto back2;
-                            break;
-                        case 2:
-                            goto mainmenu;
-                            break;
-                        default:
-                            printf("Invalid Input");
-                            break;
-                        }
+                        deposit();
+                        break;
                     case 2:
-                        printf("What is your first name: ");
-                        scanf("%s", &name);
-                        printf("1.Back\n");
-                        printf("2.Main Menu\n");
-                        scanf("%d", &num);
-                        switch (num)
-                        {
-                        case 1:
-                            goto back2;
-                            break;
-                        case 2:
-                            goto mainmenu;
-                            break;
-                        default:
-                            printf("Invalid Input");
-                            break;
-                        }
+                        withdraw();
                         break;
                     case 3:
-                        goto back1;
+                        transfer();
                         break;
+                    case 4:
+                        checkBalance();
+                        break;
+                    case 5:
+                        transactionHistory();
+                        break;
+                    case 6:
+                        printf("Logging out...\n");
+                        return;
                     default:
-                        printf("Invalid Input");
+                        printf("Invalid choice\n");
+                        break;
+                    }
+                }
+            }
+        }
+        if (!authenticated)
+        {
+            passwordTrials++;
+            if (passwordTrials < 3)
+            {
+                printf("Invalid password.Trials left: %d\n", 3 - passwordTrials);
+            }
+        }
+    }
+    if (!authenticated && passwordTrials == 3)
+    {
+        printf("\nMaximum trials reached.Try again later\n");
+        exit(0);
+    }
+}
+
+void authorizedAccess()
+{
+    char systemPassword[20] = "Banking", inputPassword[20];
+    bool authenticated = false;
+    int passwordTrials = 0;
+
+    printf("Enter the password: ");
+    scanf("%s", inputPassword);
+
+    while (passwordTrials < 3)
+    {
+        if (strcmp(inputPassword, systemPassword) == 0)
+        {
+            authenticated = true;
+            int choice;
+            printf("Access granted\n");
+
+            while (1)
+            {
+                printf("\n1. Show users\n");
+                printf("2. Show transactions\n");
+                printf("3. Exit\n");
+                printf("Enter your choice: ");
+                scanf("%d", &choice);
+
+                switch (choice)
+                {
+                case 1:
+                    printf("\nThe number of users is %d\n", userCount);
+                    printf("The users are:\n");
+                    for (int i = 0; i < userCount; i++)
+                    {
+                        printf("User %d:\n", i + 1);
+                        printf("    Name= %s\n", user[i].name);
+                        printf("    Username= %s\n", user[i].username);
+                        printf("    Balance= %.2lf\n", user[i].balance);
                     }
                     break;
-                }
-                break;
-            case 2: // co-operative bank
-                printf("Phone number Not Registered.\n");
-                printf("Kindly download MCo-op Cash App or Self register on retail-onlinebanking.co-opbank.co.ke or visit your nearest co-operative bank branch for assistance.\n");
-                printf("1.Back\n");
-                scanf("%d", &num);
-                switch (num)
-                {
-                case 1:
-                    goto back3;
-                    break;
-                }
-                break;
-            case 3: // KCB Bank
-                break;
-            case 4: // NCBA
-                break;
-            case 5: // ABSA
-                break;
-            default:
-                printf("Invalid Input");
-                break;
-            }
-            break;
-        case 4:
-            goto mainmenu;
-            break;
-        }
-        break;
-    case 3:
-        printf("Buy Airtime\n");
-        printf("1 Buy Airtime\n");
-        printf("2 Buy Data Bundles\n");
-        printf("3 Buy Minute Bundles\n");
-        printf("4 Home\n");
-        printf("\nChoose a service: ");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            printf("Buy Airtime\n");
-            printf("1 My Phone\n");
-            printf("2 Other Phone\n");
-            printf("3 Home\n");
-            printf("\n Choose a service: ");
-            scanf("%d", &num);
-            switch (num)
-            {
-            case 1:
-                printf("Enter amount:");
-                scanf("%d", &amount);
-                printf("Enter M-Pesa pin:");
-                scanf("%d", &pin);
-                break;
-            case 2:
-                printf("Enter phone number: ");
-                scanf("%d", &phone);
-                printf("Enter amount:");
-                scanf("%d", &amount);
-                printf("Enter M-Pesa pin:");
-                scanf("%d", &pin);
-                break;
-            case 3:
-                goto mainmenu;
-                break;
-            default:
-                printf("Invalid Input");
-                break;
-            }
-            break;
-        case 2:
-        back4:
-            printf("1.Sh20=500MB,3hr\n");
-            printf("2.Sh10=100MB,3days\n");
-            printf("3.Sh10=150MB TikTok,24hr\n");
-            printf("4.Sh10=1024MB TikTok,1hr\n");
-            printf("\nChoose a service: ");
-            scanf("%d", &num);
-            switch (num)
-            {
-            case 1:
-                printf("Buy Sh20=500MB,3hrs using:\n");
-                printf("1.Airtime\n");
-                printf("2.M-PESA\n");
-                printf("3.Okoa\n");
-                printf("4.BACK\n");
-                printf("Choose a service: ");
-                scanf("%d", &num);
-                switch (num)
-                {
-                case 1:
-                    break;
                 case 2:
+                    printf("\nThe number of transactions performed is: %d\n", transactionCount);
+                    printf("The transactions are: \n");
+                    for (int i = 0; i < transactionCount; i++)
+                    {
+                        printf("    Username= %s\n", transaction[i].username);
+                        printf("    Type= %s\n", transaction[i].type);
+                        printf("    Amount= %.2lf\n", transaction[i].amount);
+                    }
                     break;
                 case 3:
-                    break;
-                case 4:
-                    goto back4;
-                    break;
-                }
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            default:
-                printf("Invalid Input");
-                break;
-            }
-            break;
-        case 3:
-            printf("OFA MOTO!!\n");
-            printf("1.Sh20=100Mins,3hrs\n");
-            printf("2.Sh10=20Mins,1hr\n");
-            printf("3.Sh20=Kredo 60,Midnyt\n");
-            printf("4.Sh20=Dakika 20,Midnyt\n");
-            printf("5.Sh50=60 Mins,Midnyt\n");
-            printf("6.Sh200=250 Mins,7days,\n");
-            printf("7.Back\n");
-            printf("8.MORE\n");
-            printf("\nChoose a service:");
-            scanf("%d", &num);
-            switch (num)
-            {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                goto back4;
-                break;
-            case 8:
-                printf("7.Sh500=455 Mins,30days\n");
-                printf("8.Sh1000=1250 Mins,30days\n");
-                printf("9.Sh50=Kredo 150, Midnyt\n");
-                printf("Choose a service: ");
-                scanf("%d", &num);
-                switch (num)
-                {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
+                    printf("Exiting...\n");
+                    return;
                     break;
                 default:
-                    printf("Invalid Input.");
+                    printf("Invalid choice.Please try again.\n");
                     break;
                 }
                 break;
-            default:
-                printf("Invalid Input");
-                break;
             }
-            break;
-        case 4:
-            goto mainmenu;
-            break;
-        default:
-            printf("Invalid Input");
-            break;
         }
-        break;
-    case 4:
-        printf("Loans and Savings\n");
-        printf("1 Fuliza\n");
-        printf("2 M-Shwari\n");
-        printf("3 KCB M-PESA\n");
-        printf("4 Halal Pesa\n");
-        printf("\nChoose a service: ");
-        scanf("%d", &num);
-        switch (num)
+        if (!authenticated)
         {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        default:
-            printf("Invalid Input.");
-            break;
+            passwordTrials++;
+            printf("Incorrect password.Trials remaining %d.\n", 3 - passwordTrials);
         }
-        break;
-    case 5:
-        printf("Financial Services\n");
-        printf("1 MALI\n");
-        printf("2 M-Banking\n");
-        printf("3 SACCOs\n");
-        printf("4 Insurance\n");
-        printf("5 Wealth Management\n");
-        printf("6 Unclaimed Funds\n");
-        printf("7 Home\n");
-        switch (num)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        case 7:
-            goto mainmenu;
-            break;
-        default:
-            printf("Invalid Input.");
-            break;
-        }
-        break;
-    case 6:
-        printf("Lipa na M-PESA\n");
-        printf("1 Pay Bill\n");
-        printf("2 Buy Goods and Services\n");
-        printf("3 Pochi La Biashara\n");
-        printf("4 T-Kash\n");
-        printf("5 Bill Manager\n");
-        printf("6 Global Pay\n");
-        printf("7 Goverment Services\n");
-        printf("8 County Services\n");
-        printf("9: MORE");
-        printf("\nChoose a service: ");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        case 7:
-            break;
-        case 8:
-            break;
-        case 9:
-            break;
-        default:
-            printf("Invalid Input.");
-            break;
-        }
-        break;
-    case 7:
-        printf("My Account\n");
-        printf("1 INLOCK M-PESA PIN\n");
-        printf("2 M-PESA PIN Manager\n");
-        printf("3 M-PESA Statement\n");
-        printf("4 Manage Junior Account\n");
-        printf("5 Check Balance\n");
-        printf("6 Tariff Query\n");
-        printf("7 Home\n");
-        printf("\nChoose a service: ");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        case 7:
-            goto mainmenu;
-            break;
-        default:
-            printf("Invalid Input.");
-            break;
-        }
-        break;
-    case 8:
-        printf("Pochi La Biashara\n");
-        printf("1.Send Money\n");
-        printf("2.Sell Airtime\n");
-        printf("3.Lipa na Pochi\n");
-        printf("4.Withdraw Cash\n");
-        printf("5.Move Money\n");
-        printf("6.Mkopo wa Pochi\n");
-        printf("7.My Account\n");
-        printf("8.M-Pesa Promos/Offers\n");
-        printf("9:MORE\n");
-        printf("\nChoose a service: ");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-        case 7:
-            break;
-        case 8:
-            break;
-        case 9:
-            break;
-        }
-        break;
-    case 9:
-        printf("M-PESA Ratiba\n");
-        printf("0 Opt In\n");
-        printf("Choose a service: ");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        default:
-            printf("Invalid Input.");
-            break;
-        }
-        break;
-    case 10:
-        printf("11 My M-Pesa Offer\n");
-        printf("2:BACK\n");
-        printf("Choose a service:");
-        scanf("%d", &num);
-        switch (num)
-        {
-        case 1:
-            break;
-        case 2:
-            break;
-        default:
-            printf("Invalid Input.");
-            break;
-        }
-        break;
-    default:
-        printf("Invalid Input\n");
-        break;
     }
+    if (!authenticated && passwordTrials == 3)
+    {
+        printf("Maximum number of trials reached.Please try again later\n");
+        return;
+    }
+}
+
+int main()
+{
+    loadUsers();
+    loadTransactions();
+
+    while (1)
+    {
+        int choice;
+        printf("\n1. Create account\n");
+        printf("2. Login\n");
+        printf("3. System info\n");
+        printf("4. Exit\n");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            createAccount();
+            break;
+        case 2:
+            userAuthentication();
+            break;
+        case 3:
+            authorizedAccess();
+            break;
+        case 4:
+            printf("Exiting...\n");
+            saveUsers();
+            saveTransactions();
+            exit(0);
+            break;
+        default:
+            printf("Invalid choice\n");
+            break;
+        }
+    }
+
     return 0;
 }
