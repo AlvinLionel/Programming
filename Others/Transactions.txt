@@ -1,1 +1,4 @@
 Transaction 1={Lionel,Deposit,30000.00}
+Transaction 2={Joseph,Deposit,300000.00}
+Transaction 3={Lionel,Trasfer,30000.00}
+Transaction 4={Lionel,Withdraw,10000.00}

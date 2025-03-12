@@ -88,9 +88,7 @@ char *bird_code(const char *name)
 
 int main()
 {
-
-    char str[30];
-    char *code;
+    char str[30],*code;
 
     printf("Enter a string: ");
     fgets(str, 30, stdin);
