@@ -538,7 +538,6 @@ void deleteTransactions(char *username)
     saveTransactions();
 }
 
-
 void deleteAccount()
 {
     char username[50];
@@ -600,6 +599,7 @@ password_entry:
                         printf("User %d:\n", i + 1);
                         printf("\tName= %s\n", user[i].name);
                         printf("\tUsername= %s\n", user[i].username);
+                        printf("\tPassword= %s\n", user[i].password);
                         printf("\tBalance= %.2lf\n", user[i].balance);
                     }
                     break;
@@ -611,6 +611,7 @@ password_entry:
                         printf("Transaction %d:\n", i + 1);
                         printf("\tUsername= %s\n", transaction[i].username);
                         printf("\tType= %s\n", transaction[i].type);
+                        // Check if there is a way i can add a print function to print the username of the receiver.
                         printf("\tAmount= %.2lf\n", transaction[i].amount);
                     }
                     break;

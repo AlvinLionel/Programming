@@ -1,101 +1,76 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-char *bird_code(const char *name)
+void deleteUser(char *username)
 {
-    char *result = (char *)malloc(sizeof(char) * strlen(name) + 1);
-    if (name == NULL)
+    FILE *file = fopen("../Others/Users.txt", "r+");
+    if (file == NULL)
     {
         perror("File opening unsuccessfull");
         exit(1);
     }
-    int wordCount = 1, j = 0;
-    for (int i = 0; i < strlen(name); i++)
+    fseek(file, 0, SEEK_END);
+    long fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char *buffer = (char *)malloc(fileSize);
+    if (buffer == NULL)
     {
-        if (name[i] == ' ')
+        perror("Memory allocation failed");
+        fclose(file);
+        exit(1);
+    }
+
+    long writePos = 0;
+    while (fgets(buffer, fileSize, file) != NULL)
+    {
+        if (strstr(buffer, username) == NULL)
         {
-            wordCount++;
+            fseek(file, writePos, SEEK_SET);
+            fputs(buffer, file);
+            writePos = ftell(file);
         }
     }
-    if (wordCount == 1)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            result[j++] = name[i];
-        }
-    }
-    else if (wordCount == 2)
-    {
-        result[j++] = name[0];
-        for (int i = 0; i < strlen(name); i++)
-        {
-            result[j++] = name[strcspn(name, " ") + 1];
-        }
-    }
-    else if (wordCount = 3)
-    {
-        result[j++] = name[0];
-        for (int i = 0; i < strlen(name); i++)
-        {
-            int count = 0, position;
-            if (name[i] == ' ')
-            {
-                count++;
-            }
-            if(count==1)
-            {
-                position=i+1;
-            }
-            result[j++]=name[position];
-            if (count == 2)
-            {
-                position = i + 1;
-            }
-            result[j++] = name[position];
-        }
-    }
-    else if (wordCount == 4)
-    {
-        result[j++] = name[0];
-        for (int i = 0; i < strlen(name); i++)
-        {
-            int count = 0, position;
-            if (name[i] == ' ')
-            {
-                count++;
-            }
-            if (count == 1)
-            {
-                position = i + 1;
-            }
-            result[j++] = name[position];
-            if (count == 2)
-            {
-                position = i + 1;
-            }
-            result[j++] = name[position];
-            if (count == 3)
-            {
-                position = i + 1;
-            }
-            result[j++] = name[position];
-        }
-    }
-    result[j] = '\0';
-    return result;
+    _chsize(fileno(file), writePos);
+
+    userCount--;
+    saveUsers();
+
+    fclose(file);
+    free(buffer);
 }
 
-int main()
+void deleteTransactions(char *username)
 {
-    char str[30],*code;
+    FILE *file = fopen("../Others/Transactions.txt", "r+");
+    if (file == NULL)
+    {
+        perror("File opening unsuccessfull");
+        exit(1);
+    }
+    fseek(file, 0, SEEK_END);
+    long fileSize = ftell(file);
+    fseek(file, 0, SEEK_SET);
 
-    printf("Enter a string: ");
-    fgets(str, 30, stdin);
+    char *buffer = (char *)malloc(fileSize);
+    if (buffer == NULL)
+    {
+        perror("Memory allocation failed");
+        fclose(file);
+        exit(1);
+    }
+    long writePos = 0;
+    while (fgets(buffer, fileSize, file) != NULL)
+    {
+        if (strstr(buffer, username) == NULL)
+        {
+            fseek(file, writePos, SEEK_SET);
+            fputs(buffer, file);
+            writePos = ftell(file);
+        }
+    }
+    _chsize(fileno(file), writePos);
 
-    code = bird_code(str);
+    transactionCount--;
+    saveTransactions();
 
-    printf("%s\n", code);
-
-    return 0;
+    fclose(file);
+    free(buffer);
 }
