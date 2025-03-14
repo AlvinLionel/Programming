@@ -130,12 +130,181 @@ void createAccount()
     printf("Account created successfully\n");
 }
 
-void deposit()
+void deposit(char *username)
+{
+    char password[50], choice[10];
+    double amount;
+    bool correctPassword = false;
+
+    printf("Enter the amount you wish to deposit: ");
+    scanf("%lf", &amount);
+    printf("Enter your password: ");
+    scanf("%s", &password);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            if (strcmp(user[i].password, password) == 0)
+            {
+                correctPassword = true;
+                printf("You are about to deposit $%.2lf,continue?(yes,no) \n", amount);
+                scanf("%s", choice);
+                if (strcmp(choice, "yes") == 0 || strcmp(choice, "Yes") == 0)
+                {
+                    user[i].balance += amount;
+                    printf("\nDeposit successfull\n");
+                    printf("Your new balance is: $%.2lf\n", user[i].balance);
+
+                    strcpy(transaction[transactionCount].username, user[i].username);
+                    strcpy(transaction[transactionCount].type, "Deposit");
+                    transaction[transactionCount].amount = amount;
+                    transactionCount++;
+                    saveTransactions();
+                    break;
+                }
+                else
+                {
+                    printf("Deposit cancelled\n");
+                    break;
+                }
+            }
+        }
+    }
+    if (!correctPassword)
+    {
+        printf("Invalid password.Please try again.\n");
+    }
+}
+
+void withdraw(char *username)
+{
+    char password[50], choice[10];
+    double amount;
+    bool correctPassword = false;
+
+    printf("Enter the amount you want to withdraw: ");
+    scanf("%lf", &amount);
+    printf("Enter your password: ");
+    scanf("%s", &password);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            if (strcmp(user[i].password, password) == 0)
+            {
+                if (user[i].balance < amount)
+                {
+                    printf("Insufficient balance\n");
+                    break;
+                }
+                correctPassword = true;
+                printf("You are about to withdraw $%.2lf,continue?(yes,no) \n", amount);
+                scanf("%s", choice);
+                if (strcmp(choice, "yes") == 0 || strcmp(choice, "Yes") == 0)
+                {
+                    user[i].balance -= amount;
+                    printf("\nWithdraw successfull\n");
+                    printf("Your new balance is: $%.2lf\n", user[i].balance);
+
+                    strcpy(transaction[transactionCount].username, username);
+                    strcpy(transaction[transactionCount].type, "Withdraw");
+                    transaction[transactionCount].amount = amount;
+                    transactionCount++;
+                    saveTransactions();
+                    break;
+                }
+                else
+                {
+                    printf("Withdrawal cancelled\n");
+                    break;
+                }
+            }
+        }
+    }
+    if (!correctPassword)
+    {
+        printf("Invalid password.Please try again.\n");
+    }
+}
+
+void transfer(char *username)
+{
+    char password[50], receiver[50], choice[10];
+    double amount;
+    bool correctPassword = false, receiverFound = false;
+
+    printf("Enter the username of the receiver: ");
+    scanf("%s", &receiver);
+    printf("Enter the amount you wish to transfer: ");
+    scanf("%lf", &amount);
+    printf("Enter your password: ");
+    scanf("%s", &password);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            if (strcmp(user[i].password, password) == 0)
+            {
+                correctPassword = true;
+                for (int i = 0; i < userCount; i++)
+                {
+                    if (strcmp(user[i].username, receiver) == 0)
+                    {
+                        receiverFound = true;
+                    }
+                }
+                if (!receiverFound)
+                {
+                    printf("Invalid receiver username.Please try again\n");
+                    break;
+                }
+                if (user[i].balance < amount)
+                {
+                    printf("Insufficient balance\n");
+                    break;
+                }
+                for (int j = 0; j < userCount; j++)
+                {
+                    if (strcmp(user[j].username, receiver) == 0)
+                    {
+                        printf("You are about to transfer $%.2lf to %s,continue?(yes,no) \n", amount, user[j].name);
+                        scanf("%s", choice);
+                        if (strcmp(choice, "yes") == 0 || strcmp(choice, "Yes") == 0)
+                        {
+                            user[i].balance -= amount;
+                            user[j].balance += amount;
+                            printf("Trasfer successfull\n");
+                            printf("Your new balance is: $%.2lf\n", user[i].balance);
+
+                            strcpy(transaction[transactionCount].username, username);
+                            strcpy(transaction[transactionCount].type, "Trasfer");
+                            transaction[transactionCount].amount = amount;
+                            transactionCount++;
+                            saveTransactions();
+                            break;
+                        }
+                        else
+                        {
+                            printf("Transfer cancelled\n");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (!correctPassword)
+    {
+        printf("Invalid password.Please try again.\n");
+    }
+}
+
+void checkBalance(char *username)
 {
     char password[50];
-    double amount;
-    bool userFound = false;
-
     printf("Enter your password: ");
     scanf("%s", &password);
 
@@ -143,180 +312,52 @@ void deposit()
     {
         if (strcmp(user[i].password, password) == 0)
         {
-            printf("Enter the amount you want to deposit: ");
-            scanf("%lf", &amount);
-            userFound = true;
-            user[i].balance += amount;
-            printf("\nDeposit successfull\n");
-            printf("Your new balance is: $%.2lf\n", user[i].balance);
-
-            strcpy(transaction[transactionCount].username, user[i].username);
-            strcpy(transaction[transactionCount].type, "Deposit");
-            transaction[transactionCount].amount = amount;
-            transactionCount++;
-            saveTransactions();
-            return;
-        }
-    }
-    if (!userFound)
-    {
-        printf("Invalid password.Please try again.\n");
-    }
-}
-
-void withdraw()
-{
-    char username[50];
-    double amount;
-    bool userFound = false;
-
-    printf("Enter your username: ");
-    scanf("%s", &username);
-
-    for (int i = 0; i < userCount; i++)
-    {
-        if (strcmp(user[i].username, username) == 0)
-        {
-            printf("Enter the amount you want to withdraw: ");
-            scanf("%lf", &amount);
-            userFound = true;
-            if (user[i].balance < amount)
-            {
-                printf("Insufficient balance\n");
-                return;
-            }
-            user[i].balance -= amount;
-            printf("\nWithdraw successfull\n");
-            printf("Your new balance is: $%.2lf\n", user[i].balance);
-
-            strcpy(transaction[transactionCount].username, username);
-            strcpy(transaction[transactionCount].type, "Withdraw");
-            transaction[transactionCount].amount = amount;
-            transactionCount++;
-            saveTransactions();
-        }
-    }
-    if (!userFound)
-    {
-        printf("Invalid username.Please try again.\n");
-    }
-}
-
-void transfer()
-{
-    char username[50];
-    char receiver[50];
-    double amount;
-    bool userFound = false, receiverFound = false;
-
-    printf("Enter your username: ");
-    scanf("%s", &username);
-
-    for (int i = 0; i < userCount; i++)
-    {
-        if (strcmp(user[i].username, username) == 0)
-        {
-            userFound = true;
-            printf("Enter the username of the receiver: ");
-            scanf("%s", &receiver);
-            for (int i = 0; i < userCount; i++)
-            {
-                if (strcmp(user[i].username, receiver) == 0)
-                {
-                    receiverFound = true;
-                }
-            }
-            if (!receiverFound)
-            {
-                printf("Invalid receiver username.Please try again\n");
-                return;
-            }
-
-            printf("Enter the amount you want to transfer: ");
-            scanf("%lf", &amount);
-            if (user[i].balance < amount)
-            {
-                printf("Insufficient balance\n");
-                return;
-            }
-            for (int j = 0; j < userCount; j++)
-            {
-                if (strcmp(user[j].username, receiver) == 0)
-                {
-                    user[i].balance -= amount;
-                    user[j].balance += amount;
-                    printf("Trasfer successfull\n");
-                    printf("Your new balance is: $%.2lf\n", user[i].balance);
-
-                    strcpy(transaction[transactionCount].username, username);
-                    strcpy(transaction[transactionCount].type, "Trasfer");
-                    transaction[transactionCount].amount = amount;
-                    transactionCount++;
-                    saveTransactions();
-                    return;
-                }
-            }
-        }
-    }
-    if (!userFound)
-    {
-        printf("Invalid username.Please try again.\n");
-    }
-}
-
-void checkBalance()
-{
-    char username[50];
-    printf("Enter your username: ");
-    scanf("%s", &username);
-
-    for (int i = 0; i < userCount; i++)
-    {
-        if (strcmp(user[i].username, username) == 0)
-        {
             printf("\nYour balance is: $%.2lf\n", user[i].balance);
             return;
         }
     }
-    printf("Invalid username.Please try again\n");
+    printf("Invalid password.Please try again\n");
 }
 
-void transactionHistory()
+void transactionHistory(char *username)
 {
-    char username[50];
-    bool userFound = false;
+    char password[50];
+    bool correctPassword = false;
 
-    printf("Enter your username: ");
-    scanf("%s", username);
+    printf("Enter your password: ");
+    scanf("%s", password);
 
     for (int i = 0; i < userCount; i++)
     {
         if (strcmp(user[i].username, username) == 0)
         {
-            userFound = true;
-            bool transactionFound = false;
+            if (strcmp(user[i].password, password) == 0)
+            {
+                correctPassword = true;
+                bool transactionFound = false;
 
-            for (int j = 0; j < transactionCount; j++)
-            {
-                if (strcmp(transaction[j].username, username) == 0)
+                for (int j = 0; j < transactionCount; j++)
                 {
-                    printf("\nTransaction %d\n", j + 1);
-                    printf("Name: %s\n", transaction[j].username);
-                    printf("Type: %s\n", transaction[j].type);
-                    printf("Amount: $%.2lf\n", transaction[j].amount);
-                    transactionFound = true;
+                    if (strcmp(transaction[j].username, username) == 0)
+                    {
+                        transactionFound = true;
+                        printf("\nTransaction %d\n", j + 1);
+                        printf("\tName: %s\n", transaction[j].username);
+                        printf("\tType: %s\n", transaction[j].type);
+                        printf("\tAmount: $%.2lf\n", transaction[j].amount);
+                    }
                 }
+                if (!transactionFound)
+                {
+                    printf("\nNo transactions have been performed yet.\n");
+                }
+                break;
             }
-            if (!transactionFound)
-            {
-                printf("\nNo transactions have been performed yet.\n");
-            }
-            return;
         }
     }
-    if (!userFound)
+    if (!correctPassword)
     {
-        printf("Invalid username.Please try again\n");
+        printf("Invalid password.Please try again\n");
     }
 }
 
@@ -337,7 +378,7 @@ void userAuthentication()
 
         for (int i = 0; i < userCount; i++)
         {
-            if (strcmp(user[i].username, username) == 0 && strcmp(user[i].password, password) == 0)
+            if (strcmp(user[i].username, username) == 0 && strcmp(user[i].password, password) == 0) // check if an incorrect username will be treated the same as an incorrect password
             {
                 printf("\nWelcome %s\n", user[i].name);
                 authenticated = true;
@@ -357,19 +398,19 @@ void userAuthentication()
                     switch (choice)
                     {
                     case 1:
-                        deposit();
+                        deposit(username);
                         break;
                     case 2:
-                        withdraw();
+                        withdraw(username);
                         break;
                     case 3:
-                        transfer();
+                        transfer(username);
                         break;
                     case 4:
-                        checkBalance();
+                        checkBalance(username);
                         break;
                     case 5:
-                        transactionHistory();
+                        transactionHistory(username);
                         break;
                     case 6:
                         printf("Logging out...\n");
@@ -399,17 +440,18 @@ void userAuthentication()
 
 void deleteUser(char *username)
 {
-    FILE *file = fopen("../Others/Users.txt", "r+");
+    FILE *file = fopen("../Others/Users.txt", "r");
     if (file == NULL)
     {
-        perror("File opening unsuccessfull");
+        perror("File opening unsuccessful");
         exit(1);
     }
+
     fseek(file, 0, SEEK_END);
     long fileSize = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    char *buffer = (char *)malloc(fileSize);
+    char *buffer = (char *)malloc(fileSize + 1);
     if (buffer == NULL)
     {
         perror("Memory allocation failed");
@@ -417,67 +459,90 @@ void deleteUser(char *username)
         exit(1);
     }
 
-    long writePos = 0;
-    while (fgets(buffer, fileSize, file) != NULL)
+    fread(buffer, 1, fileSize, file);
+    fclose(file);
+    buffer[fileSize] = '\0';
+
+    file = fopen("../Others/Users.txt", "w");
+    if (file == NULL)
     {
-        if (strstr(buffer, username) == NULL)
-        {
-            fseek(file, writePos, SEEK_SET);
-            fputs(buffer, file);
-            writePos = ftell(file);
-        }
+        perror("File opening unsuccessful");
+        free(buffer);
+        exit(1);
     }
-    _chsize(fileno(file), writePos);
+
+    char *line = strtok(buffer, "\n");
+    while (line != NULL)
+    {
+        if (strstr(line, username) == NULL)
+        {
+            fprintf(file, "%s\n", line);
+        }
+        line = strtok(NULL, "\n");
+    }
+
+    free(buffer);
+    fclose(file);
 
     userCount--;
     saveUsers();
-
-    fclose(file);
-    free(buffer);
 }
 
 void deleteTransactions(char *username)
 {
-    FILE *file = fopen("../Others/Transactions.txt", "r+");
+    FILE *file = fopen("../Others/Transactions.txt", "r");
     if (file == NULL)
     {
-        perror("File opening unsuccessfull");
+        perror("File opening unsuccessful");
         exit(1);
     }
+
     fseek(file, 0, SEEK_END);
     long fileSize = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    char *buffer = (char *)malloc(fileSize);
+    char *buffer = (char *)malloc(fileSize + 1);
     if (buffer == NULL)
     {
         perror("Memory allocation failed");
         fclose(file);
         exit(1);
     }
-    long writePos = 0;
-    while (fgets(buffer, fileSize, file) != NULL)
+
+    fread(buffer, 1, fileSize, file);
+    fclose(file);
+    buffer[fileSize] = '\0';
+
+    file = fopen("../Others/Transactions.txt", "w");
+    if (file == NULL)
     {
-        if (strstr(buffer, username) == NULL)
-        {
-            fseek(file, writePos, SEEK_SET);
-            fputs(buffer, file);
-            writePos = ftell(file);
-        }
+        perror("File opening unsuccessful");
+        free(buffer);
+        exit(1);
     }
-    _chsize(fileno(file), writePos);
+
+    char *line = strtok(buffer, "\n");
+    while (line != NULL)
+    {
+        if (strstr(line, username) == NULL)
+        {
+            fprintf(file, "%s\n", line);
+        }
+        line = strtok(NULL, "\n");
+    }
+
+    free(buffer);
+    fclose(file);
 
     transactionCount--;
     saveTransactions();
-
-    fclose(file);
-    free(buffer);
 }
+
 
 void deleteAccount()
 {
     char username[50];
-    printf("Enter the username of the account you want to delete: \n");
+    printf("Enter the username of the account you want to delete: ");
     scanf("%s", username);
 
     bool userFound = false;
@@ -488,8 +553,8 @@ void deleteAccount()
             userFound = true;
             deleteUser(username);
             deleteTransactions(username);
-            break;
             printf("Account deleted successfully\n");
+            break;
         }
     }
     if (!userFound)
@@ -579,13 +644,11 @@ password_entry:
 
 int main()
 {
-    printf("Checkpoint 1\n");
     loadUsers();
     loadTransactions();
 
     while (1)
     {
-        printf("Checkpoint 2\n");
         int choice;
         printf("\n1. Create account\a\n");
         printf("2. Login\n");
@@ -597,19 +660,15 @@ int main()
         switch (choice)
         {
         case 1:
-            printf("Checkpoint 3\n");
             createAccount();
             break;
         case 2:
-            printf("Checkpoint 4\n");
             userAuthentication();
             break;
         case 3:
-            printf("Checkpoint 5\n");
             authorizedAccess();
             break;
         case 4:
-            printf("Checkpoint 6\n");
             printf("Exiting...\n");
             saveUsers();
             saveTransactions();
