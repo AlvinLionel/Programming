@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <io.h>
 void deleteUser(char *username)
 {
     FILE *file = fopen("../Others/Users.txt", "r+");
@@ -73,4 +77,10 @@ void deleteTransactions(char *username)
 
     fclose(file);
     free(buffer);
+}
+
+int main()
+{
+
+    return 0;
 }
