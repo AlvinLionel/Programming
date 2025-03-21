@@ -361,12 +361,48 @@ void transactionHistory(char *username)
     }
 }
 
+void modifyAccount()
+{
+    char username[50], password[50];
+    bool userFound = false;
+
+    printf("Enter the username of the account you want to modify: ");
+    scanf("%s", username);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].username, username) == 0)
+        {
+            userFound = true;
+            printf("Enter the current password: ");
+
+            if (strcmp(user[i].password, password) == 0)
+            {
+                printf("Enter the new password: ");
+                scanf("%s", user[i].password);
+                printf("Password changed successfully\n");
+                saveUsers();
+                break;
+            }
+            else
+            {
+                printf("Invalid password.Please try again\n");
+                break;
+            }
+        }
+    }
+    if (!userFound)
+    {
+        printf("Invalid username.Please try again\n");
+    }
+}
+
 void userAuthentication()
 {
     char username[50];
     char password[50];
     int passwordTrials = 0;
-    bool authenticated = false;
+    bool authenticated = false, userFound = false;
 
     printf("Enter your username: ");
     scanf("%s", &username);
@@ -378,49 +414,62 @@ void userAuthentication()
 
         for (int i = 0; i < userCount; i++)
         {
-            if (strcmp(user[i].username, username) == 0 && strcmp(user[i].password, password) == 0) // check if an incorrect username will be treated the same as an incorrect password
+            if (strcmp(user[i].username, username) == 0)
             {
-                printf("\nWelcome %s\n", user[i].name);
-                authenticated = true;
-
-                while (1)
+                userFound = true;
+                if (strcmp(user[i].password, password) == 0)
                 {
-                    int choice;
-                    printf("\n1. Deposit\n");
-                    printf("2. Withdraw\n");
-                    printf("3. Trasfer\n");
-                    printf("4. Check balance\n");
-                    printf("5. Transaction history\n");
-                    printf("6. Log out\n");
-                    printf("\nEnter your choice: ");
-                    scanf("%d", &choice);
+                    printf("\nWelcome %s\n", user[i].name);
+                    authenticated = true;
 
-                    switch (choice)
+                    while (1)
                     {
-                    case 1:
-                        deposit(username);
-                        break;
-                    case 2:
-                        withdraw(username);
-                        break;
-                    case 3:
-                        transfer(username);
-                        break;
-                    case 4:
-                        checkBalance(username);
-                        break;
-                    case 5:
-                        transactionHistory(username);
-                        break;
-                    case 6:
-                        printf("Logging out...\n");
-                        return;
-                    default:
-                        printf("Invalid choice\n");
-                        break;
+                        int choice;
+                        printf("\n1. Deposit\n");
+                        printf("2. Withdraw\n");
+                        printf("3. Trasfer\n");
+                        printf("4. Check balance\n");
+                        printf("5. Transaction history\n");
+                        printf("6. Modify account\n");
+                        printf("7. Log out\n");
+                        printf("\nEnter your choice: ");
+                        scanf("%d", &choice);
+
+                        switch (choice)
+                        {
+                        case 1:
+                            deposit(username);
+                            break;
+                        case 2:
+                            withdraw(username);
+                            break;
+                        case 3:
+                            transfer(username);
+                            break;
+                        case 4:
+                            checkBalance(username);
+                            break;
+                        case 5:
+                            transactionHistory(username);
+                            break;
+                        case 6:
+                            modifyAccount();
+                            break;
+                        case 7:
+                            printf("Logging out...\n");
+                            return;
+                        default:
+                            printf("Invalid choice\n");
+                            break;
+                        }
                     }
                 }
             }
+        }
+        if (!userFound)
+        {
+            printf("Invalid username.Please try again\n");
+            break;
         }
         if (!authenticated)
         {
