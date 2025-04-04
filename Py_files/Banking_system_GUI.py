@@ -5,14 +5,15 @@ from tkinter import messagebox
 def load_users():
     users = {}
     try:
-        with open("..Others/Users.txt", "r") as file:
+        with open("../Others/Users.txt", "r") as file:
             for line in file:
-                parts = line.strip().split(',')
-                username = parts[1]
+                details = line.strip().split("=")[1][1:-1]  # Extract everything inside the {}
+                parts = details.split(",")
+                username = parts[1].split(":")[1]
                 users[username] = {
-                    "name": parts[0],
-                    "password": parts[2],
-                    "balance": float(parts[3])
+                    "name": parts[0].split(":")[1],
+                    "password": parts[2].split(":")[1],
+                    "balance": float(parts[3].split(":")[1])
                 }
     except FileNotFoundError:
         pass
@@ -24,27 +25,32 @@ def load_transactions():
     try:
         with open("../Others/Transactions.txt", "r") as file:
             for line in file:
-                parts = line.strip().split(',')
+                details = line.strip().split("=")[1][1:-1]  # Extract everything inside the {}
+                parts = details.split(",")
                 transactions.append({
-                    "username": parts[0],
-                    "type": parts[1],
-                    "amount": float(parts[2])
+                    "username": parts[0].split(":")[1],
+                    "type": parts[1].split(":")[1],
+                    "amount": float(parts[2].split(":")[1])
                 })
     except FileNotFoundError:
         pass
     return transactions
 
-# Function to save users to file
+# Function to save users to file in the correct format
 def save_users(users):
     with open("../Others/Users.txt", "w") as file:
+        user_id = 1
         for username, data in users.items():
-            file.write(f"{data['name']},{username},{data['password']},{data['balance']}\n")#Modify this function to save the user data in the correct format
+            file.write(f"User={user_id}={{name:{data['name']},username:{username},password:{data['password']},balance:{data['balance']:.2f}}}\n")
+            user_id += 1
 
-# Function to save transactions to file
+# Function to save transactions to file in the correct format
 def save_transactions(transactions):
     with open("../Others/Transactions.txt", "w") as file:
+        transaction_id = 1
         for transaction in transactions:
-            file.write(f"{transaction['username']},{transaction['type']},{transaction['amount']}\n")
+            file.write(f"Transaction={transaction_id}={{username:{transaction['username']},type:{transaction['type']},amount:{transaction['amount']:.2f}}}\n")
+            transaction_id += 1
 
 # Create GUI
 def create_account():
@@ -146,7 +152,7 @@ def show_account_actions(username):
 
     def check_balance():
         balance = users[username]["balance"]
-        messagebox.showinfo("Balance", f"Your balance is ${balance}.")
+        messagebox.showinfo("Balance", f"Your balance is ${balance:.2f}.")
 
     account_actions_window = tk.Toplevel(root)
     account_actions_window.title("Account Actions")

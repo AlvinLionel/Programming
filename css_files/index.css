@@ -1,5 +1,34 @@
-body{
+body {
     background-color: #333;
     color: rgb(12, 206, 241);
     font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: rgb(66, 107, 107);
+    text-align: center;
+    font-weight: bold;
+}
+
+#sidebar {
+    background-color: rgb(79, 95, 113);
+    width: 20%;
+}
+
+main {
+    background: rgb(90, 114, 61);
+    min-height: 80vh;
+    display: flex;
+    flex-direction: row;
+}
+
+footer {
+    color: lightgreen;
+    background-color: rgb(55, 72, 66);
+    text-align: center;
+    width: 100%;
+    position: sticky;
+    bottom: 0;
 }

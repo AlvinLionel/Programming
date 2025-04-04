@@ -10,9 +10,24 @@
 </head>
 
 <body>
-  <p id="time"></p>
-  <hr>
-  <p id="demo"></p>
+  <header>
+    <p>Learning Javascript</p>
+  </header>
+  <main>
+    <div id="sidebar">
+      <p id="rand"></p>
+    </div>
+    <div id="content">
+      <h4><u>Rock,paper,scissors</u></h4>
+      <label for="rps">Choose your weapon</label>
+      <input type="text" name="rps" id="rps"><br>
+      <button onclick="playRPS()">Play</button>
+      <p id="compPick"></p><hr>
+    </div>
+  </main>
+  <footer>
+    <p id="date"></p>
+  </footer>
 </body>
 
 </html>

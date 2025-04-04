@@ -375,6 +375,7 @@ void modifyAccount()
         {
             userFound = true;
             printf("Enter the current password: ");
+            scanf("%s", password);
 
             if (strcmp(user[i].password, password) == 0)
             {
