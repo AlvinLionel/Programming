@@ -1,2 +1,16 @@
 #ignore all .txt files
 *.txt
+#ignore the .vscode in the root
+.vscode
+#ignore the build directory
+c_files/build/
+#ignore the .vscode in the c_files directory
+c_files/.vscode
+#ignore the .ilk files
+*.ilk
+#ignore the .pdb files
+*.pdb
+#ignore the .obj files
+*.obj
+#ignore the .exe files
+*.exe
